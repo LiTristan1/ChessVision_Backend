@@ -8,7 +8,8 @@
   "main": "app.ts",
   "scripts": {
     "test": "node app.ts",
-    "dev": "nodemon --watch . --ext ts,json --ignore node_modules --exec tsx app.ts"
+    "dev": "nodemon --watch . --ext ts,json --ignore node_modules --exec tsx app.ts",
+    "build": "tsc"
   },
   "dependencies": {
     "@react-email/components": "^1.0.12",
