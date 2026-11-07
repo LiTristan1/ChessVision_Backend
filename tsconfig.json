@@ -5,7 +5,9 @@
     "rewriteRelativeImportExtensions": true,
     "erasableSyntaxOnly": true,
     "verbatimModuleSyntax": true,
-    "noEmit": true,
+    "noEmit": false,
+    "outDir": "./dist",
+    "rootDir": "./",
     "strict": true,
     "skipLibCheck": true,
     "jsx": "react-jsx"

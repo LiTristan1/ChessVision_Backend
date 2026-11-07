@@ -9,7 +9,8 @@
   "scripts": {
     "test": "node app.ts",
     "dev": "nodemon --watch . --ext ts,json --ignore node_modules --exec tsx app.ts",
-    "build": "tsc"
+    "build": "tsc",
+    "start": "node dist/app.js"
   },
   "dependencies": {
     "@react-email/components": "^1.0.12",
