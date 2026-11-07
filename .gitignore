@@ -1,0 +1,7 @@
+/chessBase
+.env
+node_modules/
+chessBase/
+.env
+.env.*
+!.env.example
