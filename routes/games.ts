@@ -124,14 +124,13 @@ router.get("/game/:id", async (req: Request, res: Response) => {
 
 
 export type FullAnalysisInputType = {
-
+    id: string,
     gameString: string;
     moves: number;
     until: number;
     since: number;
     play: string;
 };
-
 
 router.post("/fullAnalysis", async (req: Request, res: Response) => {
 
