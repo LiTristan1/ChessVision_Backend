@@ -33,8 +33,17 @@ export async function createUser(req: Request, res: Response) {
             return res.status(404).json({ "message": "Chess.com user not found" })
         }
 
+        if (!response.ok) {
+            return res.status(502).json({
+                message: "Unable to verify Chess.com username"
+            });
+        }
+
     } catch (e) {
         console.log("Unable to find chess.com username")
+        return res.status(502).json({
+            message: "Unable to verify Chess.com username"
+        });
     }
     console.log("Received username", username)
     //check if there are duplicate users in USERS TABLE
