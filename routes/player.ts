@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { type Request, type Response } from 'express'
-import { getChessVisionUserInfo, getPlayerProfile, getPlayerStats, updateUserInfo } from "../controllers/playerController.ts";
+import { deleteAccount, getChessVisionUserInfo, getPlayerProfile, getPlayerStats, updateUserInfo } from "../controllers/playerController.ts";
 import { type AuthRequest } from "../middleware/jwt.ts";
 import db from "../database/postgresConnection.ts";
 const router = Router()
@@ -92,6 +92,11 @@ router.get('/chessVisionInfo', async (req: AuthRequest, res: Response) => {
 router.patch('/update', async (req: Request, res: Response) => {
     console.log("hit update player")
     await updateUserInfo(req, res);
+})
+
+router.delete('/account', async (req: AuthRequest, res: Response) => {
+    console.log("Hit delete user")
+    await deleteAccount(req, res)
 })
 
 export default router;

@@ -93,6 +93,26 @@ export async function updateUserInfo(req: AuthRequest, res: Response) {
     }
 
 
+
+
+}
+export async function deleteAccount(req: AuthRequest, res: Response) {
+    try {
+        if (!req.user?.username) {
+            return res.status(404).json({ "message": "Missing username" })
+        }
+
+        const deleteAccount = await db.query(`DELETE FROM users WHERE username = $1 RETURNING id`, [req.user?.username])
+
+
+        if(deleteAccount.length == 0){
+            return res.status(404).json({"message":"User account not found"})
+        }
+        
+        return res.sendStatus(200)
+    } catch (e) {
+        return res.status(500).json({ "message": `Error deleting account: ${e}` })
+    }
 }
 
 
