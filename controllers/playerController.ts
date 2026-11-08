@@ -95,28 +95,40 @@ export async function updateUserInfo(req: AuthRequest, res: Response) {
 
 
 
-}
-export async function deleteAccount(req: AuthRequest, res: Response) {
+} export async function deleteAccount(req: AuthRequest, res: Response) {
+    if (!req.user?.username) {
+        return res.status(401).json({
+            message: "Unauthorized"
+        });
+    }
+
     try {
-        if (!req.user?.username) {
-            return res.status(404).json({ "message": "Missing username" })
+        const username = req.user.username;
+
+        const response = await db.tx(async t => {
+            const foundUser = await t.oneOrNone(`SELECT id FROM users WHERE username = $1`,[username])
+
+            if(!foundUser){
+                return false
+            }
+
+            const deleteSessions = await t.none(`DELETE FROM sessions WHERE user_id = $1`,[foundUser.id])
+
+            const deleteUser = await t.none(`DELETE FROM users WHERE id = $1`,[foundUser.id])
+
+            return true
+        })
+        if(!response){
+            return res.status(500).json({"message":`Failed to delete user and associated sessions`});
         }
 
-        const deleteAccount = await db.query(`DELETE FROM users WHERE username = $1 RETURNING id`, [req.user?.username])
-
-
-        if(deleteAccount.length == 0){
-            return res.status(404).json({"message":"User account not found"})
-        }
-        
         return res.sendStatus(200)
+
     } catch (e) {
-        return res.status(500).json({ "message": `Error deleting account: ${e}` })
+        console.error("Error deleting account:", e);
+
+        return res.status(500).json({
+            message: "Failed to delete account"
+        });
     }
 }
-
-
-
-
-
-
